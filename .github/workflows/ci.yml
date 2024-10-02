@@ -210,3 +210,9 @@ jobs:
       - name: Install OpenRV
         run: |
           cmake --install _build --prefix $(pwd)/_install --config ${{ matrix.build-type }}
+          zip -vr build.zip _build
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build.zip
