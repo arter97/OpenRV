@@ -164,10 +164,4 @@ runs:
         run: |
           ls -al ./${{ inputs.qt-output }}
           file ./${{ inputs.qt-output }}/bin/qmake
-          zip -vr ./${{ inputs.qt-output }}.zip ./${{ inputs.qt-output }}
         shell: bash
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ./${{ inputs.qt-output }}.zip
