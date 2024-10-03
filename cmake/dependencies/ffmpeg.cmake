@@ -186,58 +186,6 @@ SET(${_force_rebuild}
 # Make a list of the Open RV's FFmpeg config options unless already customized. Note that a super project, a project consuming Open RV as a submodule, can
 # customize the FFmpeg config options via the RV_FFMPEG_CONFIG_OPTIONS cmake property.
 IF(NOT RV_FFMPEG_CONFIG_OPTIONS)
-  SET(NON_FREE_DECODERS_TO_DISABLE
-      "aac"
-      "aac_at"
-      "aac_fixed"
-      "aac_latm"
-      "bink"
-      "binkaudio_dct"
-      "binkaudio_rdft"
-      "dnxhd"
-      "dvvideo"
-      "prores"
-      "qtrle"
-      "vp9"
-      "vp9_cuvid"
-      "vp9_mediacodec"
-      "vp9_qsv"
-      "vp9_rkmpp"
-      "vp9_v4l2m2m"
-  )
-
-  FOREACH(
-    NON_FREE_DECODER_TO_DISABLE
-    ${NON_FREE_DECODERS_TO_DISABLE}
-  )
-    IF(NOT NON_FREE_DECODER_TO_DISABLE IN_LIST RV_FFMPEG_NON_FREE_DECODERS_TO_ENABLE)
-      LIST(APPEND _disabled_decoders "--disable-decoder=${NON_FREE_DECODER_TO_DISABLE}")
-    ELSE()
-      MESSAGE(STATUS "FFmpeg decoder ${NON_FREE_DECODER_TO_DISABLE} enabled")
-    ENDIF()
-  ENDFOREACH()
-
-  SET(NON_FREE_ENCODERS_TO_DISABLE
-      "aac"
-      "aac_mf"
-      "dnxhd"
-      "dvvideo"
-      "prores"
-      "qtrle"
-      "vp9_qsv"
-      "vp9_vaapi"
-  )
-  FOREACH(
-    NON_FREE_ENCODER_TO_DISABLE
-    ${NON_FREE_ENCODERS_TO_DISABLE}
-  )
-    IF(NOT NON_FREE_ENCODER_TO_DISABLE IN_LIST RV_FFMPEG_NON_FREE_ENCODERS_TO_ENABLE)
-      LIST(APPEND _disabled_encoders "--disable-encoder=${NON_FREE_ENCODER_TO_DISABLE}")
-    ELSE()
-      MESSAGE(STATUS "FFmpeg encoder ${NON_FREE_ENCODER_TO_DISABLE} enabled")
-    ENDIF()
-  ENDFOREACH()
-
   LIST(APPEND _disabled_parsers "--disable-parser=vp9")
 
   LIST(APPEND _disabled_filters "--disable-filter=geq")
@@ -247,7 +195,7 @@ IF(NOT RV_FFMPEG_CONFIG_OPTIONS)
   LIST(APPEND _disabled_protocols "--disable-protocol=rtmpte")
 
   SET(RV_FFMPEG_CONFIG_OPTIONS
-      ${_disabled_decoders} ${_disabled_encoders} ${_disabled_filters} ${_disabled_parsers} ${_disabled_protocols}
+      ${_disabled_filters} ${_disabled_parsers} ${_disabled_protocols}
   )
 
   IF(NOT RV_FFMPEG_CONFIG_OPTIONS STREQUAL RV_FFMPEG_CONFIG_OPTIONS_CACHE)
